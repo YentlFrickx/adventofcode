@@ -1,4 +1,4 @@
-package be.yfrickx.app;
+package be.yfrickx.app.day1;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
@@ -20,7 +20,7 @@ public class Day1 {
         put("nine", 9);
     }};
 
-    public static int solve() {
+    public static String solve() {
 
         int sum = 0;
 
@@ -36,7 +36,7 @@ public class Day1 {
             throw new RuntimeException(e);
         }
 
-        return sum;
+        return String.valueOf(sum);
     }
 
     // Simple first part
