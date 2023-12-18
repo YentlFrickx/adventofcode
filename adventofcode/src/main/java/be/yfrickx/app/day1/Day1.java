@@ -25,7 +25,7 @@ public class Day1 {
         int sum = 0;
 
         ClassLoader classLoader = Day1.class.getClassLoader();
-        File file = new File(classLoader.getResource("day1a.txt").getFile());
+        File file = new File(classLoader.getResource("day1.txt").getFile());
         try (LineIterator it = FileUtils.lineIterator(file, "UTF-8")) {
             while (it.hasNext()) {
                 String line = it.nextLine();
