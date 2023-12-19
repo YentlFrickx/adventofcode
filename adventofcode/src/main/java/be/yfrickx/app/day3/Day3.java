@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day3 {
 
@@ -33,13 +34,15 @@ public class Day3 {
 
     private static int analyzeLines(List<String> lines) {
         int sum = 0;
+        List<Number> numberList = new ArrayList<>();
+        List<Gear> gearList = new ArrayList<>();
+
         for (int y = 0; y < lines.size(); y++) {
             String line = lines.get(y);
 
             StringBuilder currentMatch = new StringBuilder();
             char[] charArray = line.toCharArray();
 
-            String lineWithoutNumbers = line;
             for (int x = 0; x < charArray.length; x++) {
 
                 // Build new number
@@ -50,15 +53,28 @@ public class Day3 {
                 if (!Character.isDigit(charArray[x]) || x == charArray.length-1){
                     // End of number is reached, start checking if we need to add up
                     if (!currentMatch.isEmpty()) {
-                        if (findAdjacentSymbols(lines, (x-currentMatch.length()), x-1, y)) {
-                            sum += Integer.parseInt(currentMatch.toString());
-                        }
+//                        if (findAdjacentSymbols(lines, (x-currentMatch.length()), x-1, y)) {
+//                            sum += Integer.parseInt(currentMatch.toString());
+//                        }
+                        numberList.add(new Number(y, x-currentMatch.length(), x-1, Integer.parseInt(currentMatch.toString())));
 
-                        lineWithoutNumbers = lineWithoutNumbers.replaceFirst(currentMatch.toString(), "");
                         // Reset string builder
                         currentMatch = new StringBuilder();
                     }
+
+                    if (Character.toString(charArray[x]).equals("*")) {
+                        gearList.add(new Gear(x, y));
+                    }
                 }
+            }
+        }
+
+        for (Gear gear : gearList) {
+            List<Number> adjecentNumbers = numberList.parallelStream()
+                    .filter(number -> number.isAdjecent(gear))
+                    .collect(Collectors.toList());
+            if (adjecentNumbers.size() == 2) {
+                sum += (adjecentNumbers.get(0).value * adjecentNumbers.get(1).value);
             }
         }
         return sum;
