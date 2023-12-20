@@ -26,11 +26,30 @@ class HandTest {
     }
 
     @Test
+    void type() {
+        assertEquals(new Hand("AAAAA 9").getType(), Hand.Type.FiveOfAKind);
+        assertEquals(new Hand("AAAAJ 9").getType(), Hand.Type.FiveOfAKind);
+        assertEquals(new Hand("AAAJJ 9").getType(), Hand.Type.FiveOfAKind);
+        assertEquals(new Hand("AAJJJ 9").getType(), Hand.Type.FiveOfAKind);
+        assertEquals(new Hand("AJJJJ 9").getType(), Hand.Type.FiveOfAKind);
+        assertEquals(new Hand("JJJ98 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("JJ889 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("J8889 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("99998 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("888J4 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("9JJ88 9").getType(), Hand.Type.FourOfAKind);
+        assertEquals(new Hand("8877J 9").getType(), Hand.Type.FullHouse);
+        assertEquals(new Hand("88877 9").getType(), Hand.Type.FullHouse);
+        assertEquals(new Hand("JJ934 9").getType(), Hand.Type.ThreeOfAKind);
+        assertEquals(new Hand("J8834 9").getType(), Hand.Type.ThreeOfAKind);
+    }
+
+    @Test
     void sort() {
         String input = "32T3K 765\n" +
-                "T55J5 684\n" +
+                "T5565 684\n" +
                 "KK677 28\n" +
-                "KTJJT 220\n" +
+                "KT33T 220\n" +
                 "QQQJA 483";
         List<Hand> hands = input.lines().map(Hand::new).collect(Collectors.toList());
 

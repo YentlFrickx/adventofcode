@@ -31,6 +31,10 @@ public class Day7 {
 
         long sum = 0;
         for (int i = 0; i < hands.size(); i++) {
+            if (hands.get(i).getHandString().contains("J")) {
+                System.out.println(hands.get(i).toString());
+            }
+//            System.out.println(sum);
             sum += hands.get(i).getBid() * (i + 1);
         }
 

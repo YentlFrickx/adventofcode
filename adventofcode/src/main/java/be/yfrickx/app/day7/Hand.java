@@ -1,7 +1,6 @@
 package be.yfrickx.app.day7;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Hand implements Comparable<Hand> {
 
@@ -12,7 +11,7 @@ public class Hand implements Comparable<Hand> {
 
     private final Type type;
 
-    private enum Type {
+    enum Type {
         FiveOfAKind(7),
         FourOfAKind(6),
         FullHouse(5),
@@ -41,7 +40,7 @@ public class Hand implements Comparable<Hand> {
         bid = Long.parseLong(inputString.split(" ")[1]);
     }
 
-    private Type getType() {
+    public Type getType() {
         Map<Character, Long> handMap = new HashMap<>();
         cards.forEach(card -> {
             if (!handMap.containsKey(card.getCardValue())) {
@@ -52,23 +51,59 @@ public class Hand implements Comparable<Hand> {
         int distinctCount = handMap.size();
         long maxAmount = handMap.values().stream().mapToLong(l -> l).max().getAsLong();
 
-        if (maxAmount == 5) {
+        long amountJ = 0;
+        if (handMap.containsKey('J')) {
+            amountJ = handMap.get('J');
+        }
+
+        if (distinctCount == 1) {
             return Type.FiveOfAKind;
-        } else if (maxAmount == 4) {
-            return Type.FourOfAKind;
-        } else if (maxAmount == 3) {
-            if (distinctCount == 2) {
+        } else if (distinctCount == 2) {
+            // Possibilities (without special J): 4 of a kind, fullhouse
+            if (amountJ > 0) {
+                return Type.FiveOfAKind;
+            } else if (maxAmount == 4) {
+                return Type.FourOfAKind;
+            } else {
                 return Type.FullHouse;
             }
-            return Type.ThreeOfAKind;
-        } else if (maxAmount == 2) {
-            if (distinctCount == 3) {
-                return Type.TwoPair;
+        } else if (distinctCount == 3) {
+            if (maxAmount == 3) {
+                // Three of a kind
+                // JJJ45 -> 4 of a kind
+                // 44498 -> 3 of a kind
+                // 444J1 -> 4 of a kind
+                // JJ not possible
+                if (amountJ > 0) {
+                    return Type.FourOfAKind;
+                } else {
+                    return Type.ThreeOfAKind;
+                }
+            } else {
+                // maxAmount = 2
+                // JJ22A
+                // 22334
+                // 2233J
+                if (amountJ == 2) {
+                    return Type.FourOfAKind;
+                } else if (amountJ == 1) {
+                    return Type.FullHouse;
+                } else {
+                    return Type.TwoPair;
+                }
+            }
+        } else if (distinctCount == 4) {
+            // 11234
+            // JJ234
+            // 1123J
+            if (amountJ > 0) {
+                return Type.ThreeOfAKind;
             } else {
                 return Type.Pair;
             }
+        } else {
+            return Type.Pair;
         }
-        return Type.HighCard;
     }
 
     public long getBid() {
@@ -95,7 +130,12 @@ public class Hand implements Comparable<Hand> {
 
     @Override
     public String toString() {
-        return String.format("%s, type: %s", this.handString, this.type);
+        return String.format("%s, type: %s, J: %d, Distinct: %s",
+                this.handString,
+                this.type,
+                this.handString.chars().filter(ch -> ch == 'J').count(),
+                this.handString.chars().distinct().count()
+        );
     }
 
     @Override

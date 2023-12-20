@@ -9,7 +9,7 @@ public class Card implements Comparable<Card> {
 
     List<Character> order = new ArrayList<>(
             Arrays.asList(
-                    'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2', '1')
+                    'A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', '1', 'J')
     );
 
     private final char cardValue;
