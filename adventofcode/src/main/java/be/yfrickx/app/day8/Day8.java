@@ -5,10 +5,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Day8 {
 
@@ -39,6 +36,14 @@ public class Day8 {
             String right = line.split("=")[1].split(",")[1].replace(")", "").trim();
             nodeMap.put(node, new Node(left, right));
         });
+
+        String currentNode = "AAA";
+
+        String[] dirArray = directions.split("");
+
+        for (int i = 0; i < dirArray.length; i++) {
+            if (dirArray[i].equals())
+        }
 
 
     }
