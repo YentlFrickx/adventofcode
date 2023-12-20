@@ -2,19 +2,19 @@ package be.yfrickx.app.day8;
 
 public class Node {
 
-    private Node leftNode;
-    private Node rightNode;
+    private String leftNode;
+    private String rightNode;
 
-    public Node(Node leftNode, Node rightNode) {
+    public Node(String leftNode, String rightNode) {
         this.leftNode = leftNode;
         this.rightNode = rightNode;
     }
 
-    public Node getLeftNode() {
+    public String getLeftNode() {
         return leftNode;
     }
 
-    public Node getRightNode() {
+    public String getRightNode() {
         return rightNode;
     }
 }

@@ -5,7 +5,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Day8 {
 
@@ -24,6 +27,19 @@ public class Day8 {
 
     private static String parseLines(List<String> lines) {
         String directions = lines.get(0);
+
+        Map<String, Node> nodeMap = new HashMap<>();
+
+        lines.remove(0);
+        lines.remove(0);
+
+        lines.forEach(line -> {
+            String node = line.split("=")[0].trim();
+            String left = line.split("=")[1].split(",")[0].replace("(", "").trim();
+            String right = line.split("=")[1].split(",")[1].replace(")", "").trim();
+            nodeMap.put(node, new Node(left, right));
+        });
+
 
     }
 }
