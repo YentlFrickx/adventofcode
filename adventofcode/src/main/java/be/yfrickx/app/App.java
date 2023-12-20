@@ -7,7 +7,6 @@ import be.yfrickx.app.day4.Day4;
 import be.yfrickx.app.day5.Day5;
 import be.yfrickx.app.day6.Day6;
 import be.yfrickx.app.day7.Day7;
-import be.yfrickx.app.day7.Day7b;
 
 /**
  * Hello world!
