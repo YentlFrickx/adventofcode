@@ -25,55 +25,34 @@ public class Day5 {
         return parseLines(lineList);
     }
 
-    private static List<Long> parseSeedsA(String seedLine) {
-        String cleanedLine = seedLine.replace("seeds: ", "");
-        return Arrays.stream(cleanedLine.split(" ")).map(Long::parseLong).collect(Collectors.toList());
-    }
-
-    private static List<Long> parseSeedsB(String seedLine) {
-        String cleanedLine = seedLine.replace("seeds: ", "");
-
-        List<Long> split = Arrays.stream(cleanedLine.split(" ")).map(Long::parseLong).collect(Collectors.toList());
-        List<Long> seeds = new ArrayList<>();
-        for (int i = 0; i < split.size(); i+=2) {
-            for (int j = 0; j < split.get(i + 1); j++) {
-                seeds.add(split.get(i) + j);
-            }
-        }
-        return seeds;
-    }
-
     private static String parseLines(List<String> lineList) {
-//        List<Long> seeds = parseSeedsA(lineList.get(0));
-//        List<Long> seeds = parseSeedsB(lineList.get(0));
-
         int seedSoilStart = lineList.indexOf("seed-to-soil map:")+1;
-        int seedSoilEnd = lineList.indexOf("soil-to-fertilizer map:")-2;
+        int seedSoilEnd = lineList.indexOf("soil-to-fertilizer map:")-1;
         Mapper seedSoilMapper = new Mapper(lineList.subList(seedSoilStart, seedSoilEnd));
 
 
         int soilFertStart = lineList.indexOf("soil-to-fertilizer map:")+1;
-        int soilFertEnd = lineList.indexOf("fertilizer-to-water map:")-2;
+        int soilFertEnd = lineList.indexOf("fertilizer-to-water map:")-1;
         Mapper soilFertmapper = new Mapper(lineList.subList(soilFertStart, soilFertEnd));
 
 
         int fertWaterStart = lineList.indexOf("fertilizer-to-water map:")+1;
-        int fertWaterEnd = lineList.indexOf("water-to-light map:")-2;
+        int fertWaterEnd = lineList.indexOf("water-to-light map:")-1;
         Mapper fertWaterMapper = new Mapper(lineList.subList(fertWaterStart, fertWaterEnd));
 
 
         int waterLightStart = lineList.indexOf("water-to-light map:")+1;
-        int waterLightEnd = lineList.indexOf("light-to-temperature map:")-2;
+        int waterLightEnd = lineList.indexOf("light-to-temperature map:")-1;
         Mapper waterLightMapper = new Mapper(lineList.subList(waterLightStart, waterLightEnd));
 
 
         int lightTempStart = lineList.indexOf("light-to-temperature map:")+1;
-        int lightTempEnd = lineList.indexOf("temperature-to-humidity map:")-2;
+        int lightTempEnd = lineList.indexOf("temperature-to-humidity map:")-1;
         Mapper lightTempMapper = new Mapper(lineList.subList(lightTempStart, lightTempEnd));
 
 
         int tempHumStart = lineList.indexOf("temperature-to-humidity map:")+1;
-        int tempHumEnd = lineList.indexOf("humidity-to-location map:")-2;
+        int tempHumEnd = lineList.indexOf("humidity-to-location map:")-1;
         Mapper tempHumMapper = new Mapper(lineList.subList(tempHumStart, tempHumEnd));
 
 
@@ -92,12 +71,28 @@ public class Day5 {
         long lowest = Long.MAX_VALUE;
         String cleanedLine = lineList.get(0).replace("seeds: ", "");
         List<Long> split = Arrays.stream(cleanedLine.split(" ")).map(Long::parseLong).collect(Collectors.toList());
+
+        //part A
+//        for (long seed : split) {
+//            long location = mapToLocation(seedSoilMapper, soilFertmapper, fertWaterMapper, waterLightMapper, lightTempMapper, tempHumMapper, humLocMapper, seed);
+//            if (location < lowest) {
+//                lowest = location;
+//                System.out.println();
+//                System.out.printf("Printing for seed: %s\n", seed);
+//                mapToLocation(seedSoilMapper, soilFertmapper, fertWaterMapper, waterLightMapper, lightTempMapper, tempHumMapper, humLocMapper, seed, true);
+//            }
+//        }
+
         for (int i = 0; i < split.size(); i+=2) {
             for (long j = 0; j < split.get(i + 1); j++) {
                 long seed = split.get(i) + j;
                 long location = mapToLocation(seedSoilMapper, soilFertmapper, fertWaterMapper, waterLightMapper, lightTempMapper, tempHumMapper, humLocMapper, seed);
                 if (location < lowest) {
                     lowest = location;
+//                    System.out.println();
+//                    System.out.printf("Printing for seed: %s\n", seed);
+//                    System.out.printf("Original: %s, Offset: %s/%s, Adjusted: %s \n", split.get(i), j, split.get(i + 1), seed);
+//                    mapToLocation(seedSoilMapper, soilFertmapper, fertWaterMapper, waterLightMapper, lightTempMapper, tempHumMapper, humLocMapper, seed, true);
                 }
             }
         }
@@ -113,13 +108,25 @@ public class Day5 {
                                       Mapper tempHumMapper,
                                       Mapper humLocMapper,
                                       long seed) {
-        long soil = seedSoilMapper.map(seed);
-        long fertilizer = soilFertmapper.map(soil);
-        long water = fertWaterMapper.map(fertilizer);
-        long light = waterLightMapper.map(water);
-        long temperature = lightTempMapper.map(light);
-        long humidity = tempHumMapper.map(temperature);
-        return humLocMapper.map(humidity);
+        return mapToLocation(seedSoilMapper, soilFertmapper, fertWaterMapper, waterLightMapper, lightTempMapper, tempHumMapper, humLocMapper, seed, false);
+    }
+
+    private static long mapToLocation(Mapper seedSoilMapper,
+                                      Mapper soilFertmapper,
+                                      Mapper fertWaterMapper,
+                                      Mapper waterLightMapper,
+                                      Mapper lightTempMapper,
+                                      Mapper tempHumMapper,
+                                      Mapper humLocMapper,
+                                      long seed,
+                                      boolean log) {
+        long soil = seedSoilMapper.map(seed, log);
+        long fertilizer = soilFertmapper.map(soil, log);
+        long water = fertWaterMapper.map(fertilizer, log);
+        long light = waterLightMapper.map(water, log);
+        long temperature = lightTempMapper.map(light, log);
+        long humidity = tempHumMapper.map(temperature, log);
+        return humLocMapper.map(humidity, log);
     }
 
 }

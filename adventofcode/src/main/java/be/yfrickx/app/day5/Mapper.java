@@ -25,9 +25,14 @@ public class Mapper {
         public long map(long source) {
             return (source - sourceStart) + destStart;
         }
+
+        @Override
+        public String toString() {
+            return String.format("Deststart: %s, sourceStart: %s, rangeLength: %s", this.destStart, this.sourceStart, this.rangeLength);
+        }
     }
 
-    private List<Entry> entryList = new ArrayList<>();
+    private final List<Entry> entryList = new ArrayList<>();
 
     public Mapper(List<String> inputLines) {
         inputLines.forEach( line -> {
@@ -36,8 +41,15 @@ public class Mapper {
         });
     }
 
-    public long map(long source) {
+    public long map(long source, boolean log) {
         Optional<Entry> optEntry = entryList.stream().filter(entry -> entry.isApplicable(source)).findFirst();
+        if (log) {
+            if (optEntry.isPresent()) {
+                System.out.printf("%s for %s result: %s\n",optEntry.get(), source, optEntry.get().map(source));
+            } else {
+                System.out.printf("No entry, returning source %s\n", source);
+            }
+        }
         return optEntry.map(entry -> entry.map(source)).orElse(source);
     }
 }
