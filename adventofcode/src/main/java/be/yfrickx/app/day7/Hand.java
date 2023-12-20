@@ -102,7 +102,10 @@ public class Hand implements Comparable<Hand> {
                 return Type.Pair;
             }
         } else {
-            return Type.Pair;
+            if (amountJ > 0) {
+                return Type.Pair;
+            }
+            return Type.HighCard;
         }
     }
 
