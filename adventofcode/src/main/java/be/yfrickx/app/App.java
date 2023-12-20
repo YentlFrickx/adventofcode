@@ -7,6 +7,7 @@ import be.yfrickx.app.day4.Day4;
 import be.yfrickx.app.day5.Day5;
 import be.yfrickx.app.day6.Day6;
 import be.yfrickx.app.day7.Day7;
+import be.yfrickx.app.day8.Day8;
 
 /**
  * Hello world!
@@ -23,6 +24,7 @@ public class App {
 //        System.out.println( "Day 4: " + Day4.solve() );
 //        System.out.println( "Day 5: " + Day5.solve() );
 //        System.out.println( "Day 6: " + Day6.solve() );
-        System.out.println( "Day 7: " + Day7.solve() );
+//        System.out.println( "Day 7: " + Day7.solve() );
+        System.out.println( "Day 8: " + Day8.solve() );
     }
 }
