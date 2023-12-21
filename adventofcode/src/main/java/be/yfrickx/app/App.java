@@ -2,6 +2,7 @@ package be.yfrickx.app;
 
 import be.yfrickx.app.day1.Day1;
 import be.yfrickx.app.day10.Day10;
+import be.yfrickx.app.day11.Day11;
 import be.yfrickx.app.day2.Day2;
 import be.yfrickx.app.day3.Day3;
 import be.yfrickx.app.day4.Day4;
@@ -29,6 +30,7 @@ public class App {
 //        System.out.println( "Day 7: " + Day7.solve() );
 //        System.out.println( "Day 8: " + Day8.solve() );
 //        System.out.println(new Day9("day9.txt").solvePart2());
-        System.out.println(new Day10("day10.txt").solvePart2());
+//        System.out.println(new Day10("day10.txt").solvePart2());
+        System.out.println(new Day11("day11.txt").solvePart2());
     }
 }
