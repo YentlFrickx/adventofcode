@@ -9,33 +9,19 @@ import java.util.stream.Collectors;
 
 public class Day10 extends Day {
 
+    private Map map;
     public Day10(String fileName) {
         super(fileName);
+        map = new Map(lines);
     }
 
     @Override
     public String solvePart1() {
-        List<List<Tile>> map = new ArrayList<>();
-        List<Tile> loop = new ArrayList<>();
-        int currentX = 0;
-        int currentY = 0;
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            map.add(Arrays.stream(line.split("")).map(Tile::new).collect(Collectors.toList()));
-            if (line.contains("S")) {
-                loop.add(new Tile("S"));
-                currentY = i;
-                currentX = line.indexOf("S");
-            }
-        }
-
-
-
-        return "";
+        return String.valueOf(map.getFurthestSteps());
     }
 
     @Override
     public String solvePart2() {
-        return null;
+        return String.valueOf(map.getNumEnclosedTiles());
     }
 }
